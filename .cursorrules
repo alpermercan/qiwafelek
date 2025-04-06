@@ -1,0 +1,36 @@
+{
+  "rules": [
+    {
+      "description": "Proje genelinde kullanılacak teknolojiler ve yapı hakkında bilgi.",
+      "details": [
+        "Proje, HTML, CSS ve JavaScript kullanılarak geliştirilmiştir.",
+        "Veritabanı kullanılmayacak; tüm veriler tarayıcıda lokal olarak saklanacaktır.",
+        "Ana fonksiyon, müşterilerin bir çarkıfelek çevirerek indirim kazanmasını sağlamaktır."
+      ]
+    },
+    {
+      "description": "Çarkıfelek bileşeninin davranış kuralları.",
+      "details": [
+        "Çark, belirli yüzdelik dilimlere ayrılmıştır; her dilim farklı bir indirim oranı veya 'indirim yok' seçeneği içerir.",
+        "Yönetici, çarkın dilimlerini ve her dilimin yüzdesini ayarlayabilir.",
+        "Bu ayarlar, tarayıcıda lokal olarak saklanır ve sayfa yenilendiğinde korunur."
+      ]
+    },
+    {
+      "description": "Kullanıcı arayüzü ve etkileşim kuralları.",
+      "details": [
+        "Müşteri, 'Çarkı Çevir' butonuna bastığında çark dönmeye başlar ve rastgele bir dilimde durur.",
+        "Kazanan dilim ve ilgili indirim miktarı ekranda gösterilir.",
+        "Arayüz, mobil ve tablet cihazlarla uyumlu olacak şekilde tasarlanmalıdır."
+      ]
+    },
+    {
+      "description": "Kodlama standartları ve en iyi uygulamalar.",
+      "details": [
+        "Tüm fonksiyonlar ve değişkenler açıklayıcı isimlendirmelere sahip olmalıdır.",
+        "Kod, modüler ve yeniden kullanılabilir parçalara ayrılmalıdır.",
+        "Yerel depolama işlemleri için hata yönetimi uygulanmalıdır."
+      ]
+    }
+  ]
+}
