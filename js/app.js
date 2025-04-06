@@ -11,7 +11,78 @@ document.addEventListener('DOMContentLoaded', () => {
     
     let theWheel;
     let isSpinning = false;
-    
+    let audioPermissionGranted = false;
+
+    // Test sesi oluştur
+    const testSound = new Audio('data:audio/mpeg;base64,SUQzBAAAAAABEVRYWFgAAAAtAAADY29tbWVudABCaWdTb3VuZEJhbmsuY29tIC8gTGFTb25vdGhlcXVlLm9yZwBURU5DAAAAHQAAA1N3aXRjaCBQbHVzIMKpIE5DSCBTb2Z0d2FyZQBUSVQyAAAABgAAAzIyMzUAVFNTRQAAAA8AAANMYXZmNTguNDUuMTAwAAAAAAAAAAAAAAD/80DEAAAAA0gAAAAATEFNRTMuMTAwVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVf/zQsRbAAADSAAAAABVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVf/zQMSkAAADSAAAAABVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV');
+    testSound.volume = 0.1;
+
+    // Ses izni kontrolü ve isteği
+    async function requestAudioPermission() {
+        if (audioPermissionGranted) return true;
+
+        // Ses izni modalı oluştur
+        const permissionModal = document.createElement('div');
+        permissionModal.className = 'modal permission-modal';
+        permissionModal.innerHTML = `
+            <div class="modal-content">
+                <h2>Ses İzni Gerekli</h2>
+                <p>Çarkıfelek uygulamasının tam deneyimi için ses izni gereklidir. Lütfen aşağıdaki butona tıklayarak ses iznini test edin.</p>
+                <div class="volume-warning">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+                        <path fill="currentColor" d="M12 1.5l-8 8v5h2.5v6h11v-6h2.5v-5l-8-8zm-1.5 14h3v4h-3v-4zm0-3v-1.5c0-1.38 1.12-2.5 2.5-2.5s2.5 1.12 2.5 2.5v1.5h-5z"/>
+                    </svg>
+                    <span>Lütfen cihazınızın sesinin açık olduğundan emin olun!</span>
+                </div>
+                <div class="modal-buttons">
+                    <button id="test-audio" class="btn primary">SESİ TEST ET</button>
+                </div>
+            </div>
+        `;
+
+        document.body.appendChild(permissionModal);
+
+        return new Promise((resolve) => {
+            const testButton = document.getElementById('test-audio');
+            
+            testButton.onclick = async () => {
+                try {
+                    // Ses testi yap
+                    await testSound.play();
+                    
+                    // Test başarılı
+                    audioPermissionGranted = true;
+                    permissionModal.remove();
+                    resolve(true);
+
+                    // Başarılı mesajı göster
+                    showMessage('Ses testi başarılı! Çarkı çevirebilirsiniz.', 'success');
+                } catch (error) {
+                    // Test başarısız
+                    console.error('Ses izni alınamadı:', error);
+                    showMessage('Ses izni alınamadı. Lütfen tarayıcı ayarlarınızı kontrol edin.', 'error');
+                    resolve(false);
+                }
+            };
+        });
+    }
+
+    // Mesaj gösterme fonksiyonu
+    function showMessage(message, type = 'info') {
+        const messageDiv = document.createElement('div');
+        messageDiv.className = `message ${type}`;
+        messageDiv.textContent = message;
+        document.body.appendChild(messageDiv);
+
+        // 3 saniye sonra mesajı kaldır
+        setTimeout(() => {
+            messageDiv.remove();
+        }, 3000);
+    }
+
+    // Sayfa yüklendiğinde ses iznini kontrol et
+    requestAudioPermission();
+
     // Varsayılan mesajlar
     const defaultMessages = {
         'İndirim Yok': [
